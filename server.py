@@ -98,7 +98,7 @@ def main():
 
     while True:
         file, address = server.accept()
-        thread = threading.Thread(target = handle_client, args = (file, address))
+        thread = threading.Thread(target=handle_client, args = (file, address))
         thread.start()
 
 
