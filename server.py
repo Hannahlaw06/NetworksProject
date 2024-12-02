@@ -63,7 +63,7 @@ def handle_client(client_socket, address):
                 filename = data.split("@")[1]
                 filepath = os.path.join(SERVER_PATH, filename)
 
-                # Check if a file with the same name already exists
+                # Check if file exists
                 if os.path.exists(filepath):
                     client_socket.send("ERROR@File already exists.".encode(FORMAT))
                 else:

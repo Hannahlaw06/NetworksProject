@@ -52,7 +52,7 @@ def upload_file(client_socket):
     with open(filepath, "rb") as file:
         data = file.read()
         client_socket.sendall(data)
-
+    # stops duplicates
     response = client_socket.recv(SIZE).decode(FORMAT)
     if response.startswith("ERROR"):
         print(response.split("@")[1])
