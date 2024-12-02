@@ -2,7 +2,7 @@ import socket
 import os
 from hashlib import sha256
 
-SERVER_HOST = "10.200.237.239"  # just made it the same as what you have for server.py
+SERVER_HOST = "localhost"  # Change to current IP when testing
 SERVER_PORT = 9999  # same as what you have
 ADDR = (SERVER_HOST, SERVER_PORT)
 SIZE = 1024

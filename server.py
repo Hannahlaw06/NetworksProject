@@ -4,8 +4,8 @@ import os
 from hashlib import sha256
 import shutil
 
-IP = "10.200.237.239"  # this is my computers IP
-PORT = 9999  # might need to change port too
+IP = "localhost"  # Change to current IP
+PORT = 9999
 ADDR = (IP, PORT)
 SIZE = 1024
 FORMAT = "utf-8"
@@ -28,12 +28,6 @@ def authentication(client_socket):  # authenticate using sha256 encryption
         return True
     client_socket.send("ERROR@Invalid login.".encode(FORMAT))
     return False
-
-
-def file_name(filename, file_type):
-    prefix = {"text": "TS", "audio": "AS", "video": "VS"}.get(file_type, "FS")
-    count = len([name for name in file_metadata if file_metadata[name]["type"] == file_type])
-    return f"{prefix}{count + 1:03}"
 
 
 def handle_client(client_socket, address):
