@@ -2,7 +2,7 @@ import socket
 import os
 from hashlib import sha256
 
-SERVER_HOST = "172.20.2.137"  # just made it the same as what you have for server.py
+SERVER_HOST = "192.168.141.33"  # just made it the same as what you have for server.py
 SERVER_PORT = 9999  # same as what you have
 ADDR = (SERVER_HOST, SERVER_PORT)
 SIZE = 1024
@@ -31,7 +31,6 @@ def authenticate(client_socket):
 
     client_socket.sendall(f"{username}:{hashed_password}".encode(FORMAT))
     response = client_socket.recv(SIZE).decode(FORMAT)
-
     if response.startswith("OK"):
         print("[AUTHENTICATED] Successfully logged in.")
         return True
@@ -73,12 +72,12 @@ def download_file(client_socket):
 def view_directory(client_socket):
     client_socket.sendall("DIR".encode(FORMAT))
     response = client_socket.recv(SIZE).decode(FORMAT)
-    print(f"Server Files:\n{response.rplit('@')[1]}")
+    print(f"Server Files:\n{response.split('@')[1]}")
 
 
 def delete_file(client_socket):
     filename = input("Enter the filename to delete: ").strip()
-    client_socket.sendall(f"DELETE@{filename}".encode(FORMAT))
+    client_socket.sendall(f"DELETE_FILE@{filename}".encode(FORMAT))
     response = client_socket.recv(SIZE).decode(FORMAT)
     print(response.split("@")[1])  # displays server's response
 
@@ -123,7 +122,7 @@ def main():
         print("\nMenu:")
         print("1. Upload file")
         print("2. Download file")
-        print("3. View servery directory")
+        print("3. View server directory")
         print("4. Delete file")
         print("5. Create folder")
         print("6. Delete folder")
