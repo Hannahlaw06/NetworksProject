@@ -15,9 +15,6 @@ os.makedirs(SERVER_PATH, exist_ok=True)
 
 user = {"admin": sha256("password".encode()).hexdigest()}
 
-client_storage = {}
-file_metadata = {}
-
 
 def authentication(client_socket):  # authenticate using sha256 encryption
     qualification = client_socket.recv(SIZE).decode(FORMAT).split(":")
