@@ -2,7 +2,7 @@ import socket
 import os
 from hashlib import sha256
 
-SERVER_HOST = "192.168.141.33"  # just made it the same as what you have for server.py
+SERVER_HOST = "10.200.237.239"  # just made it the same as what you have for server.py
 SERVER_PORT = 9999  # same as what you have
 ADDR = (SERVER_HOST, SERVER_PORT)
 SIZE = 1024
@@ -54,7 +54,10 @@ def upload_file(client_socket):
         client_socket.sendall(data)
 
     response = client_socket.recv(SIZE).decode(FORMAT)
-    print(response.split("@")[1])
+    if response.startswith("ERROR"):
+        print(response.split("@")[1])
+    else:
+        print(response.split("@")[1])
 
 
 def download_file(client_socket):

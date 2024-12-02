@@ -4,7 +4,7 @@ import os
 from hashlib import sha256
 import shutil
 
-IP = "192.168.141.33"  # this is my computers IP
+IP = "10.200.237.239"  # this is my computers IP
 PORT = 9999  # might need to change port too
 ADDR = (IP, PORT)
 SIZE = 1024
@@ -61,13 +61,17 @@ def handle_client(client_socket, address):
 
             elif cmd == "UPLOAD":
                 filename = data.split("@")[1]
-                file_type = "text" if filename.endswith(".txt") else "video"
-                unique_name = file_name(filename, file_type)
-                file_data = client_socket.recv(SIZE)
-                with open(os.path.join(SERVER_PATH, unique_name), "wb") as f:
-                    f.write(file_data)
-                file_metadata[unique_name] = {"type": file_type, "size": len(file_data)}
-                client_socket.send(f"OK@{unique_name} upload success.".encode(FORMAT))
+                filepath = os.path.join(SERVER_PATH, filename)
+
+                # Check if a file with the same name already exists
+                if os.path.exists(filepath):
+                    client_socket.send("ERROR@File already exists.".encode(FORMAT))
+                else:
+                    # Save the file
+                    incoming_data = client_socket.recv(SIZE)
+                    with open(filepath, "wb") as f:
+                        f.write(incoming_data)
+                    client_socket.send(f"OK@{filename} upload success.".encode(FORMAT))
 
             elif cmd == "DOWNLOAD":
                 unique_name = data.split("@")[1]
