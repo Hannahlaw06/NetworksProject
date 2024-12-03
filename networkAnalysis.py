@@ -9,9 +9,11 @@ import csv
 
 csv_header = ['Timestamp', 'Download Speed (Mbps)', 'Upload Speed (Mbps)', 'Download Time (s)', 'Upload Time (s)', 'Ping (ms)', 'Data Sent (KB)', 'Data Received (KB)']
 
-#file to save data to
+# file to save data to
+
+
 def initialize_csv(file_name='network_analysis.csv'):
-    #Initialize CSV file with header if it doesn't exist
+    # Initialize CSV file with header if it doesn't exist
     try:
         with open(file_name, mode='r') as file:
             pass  # File exists, no need to write header
@@ -20,17 +22,21 @@ def initialize_csv(file_name='network_analysis.csv'):
             writer = csv.writer(file)
             writer.writerow(csv_header)  # Write header
 
+
 def save_to_csv(data, file_name='network_analysis.csv'):
-    #Save results to a CSV file
+    # Save results to a CSV file
     with open(file_name, mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(data)
+
 
 def get_server_input():
     server = input("Enter the server address (IP or domain): ")
     return server
 
-#up/download rate
+# up/download rate
+
+
 def upDown():
     st = speedtest.Speedtest()
     st.get_best_server()
@@ -38,7 +44,8 @@ def upDown():
     upload_speed = st.upload() / 1_000_000  # Mbps
     return download_speed, upload_speed
 
-#transfer times
+# transfer times
+
 def transTime(url, destination):
     start_time = time.time()
     response = requests.get(url, stream=True)
@@ -48,7 +55,9 @@ def transTime(url, destination):
     end_time = time.time()
     return end_time - start_time
 
-#sys response times
+# sys response times
+
+
 def pingTest(hostName):
     try:
         response = subprocess.run(["ping", "-c", "4", hostName], capture_output=True, text=True)
@@ -61,7 +70,6 @@ def pingTest(hostName):
         print(f"Error while pinging {hostName}: {e}")
 
 
-
 def netAnalysis(file_to_test, file_name='network_analysis.csv'):
     server = get_server_input()
     initialize_csv(file_name)
@@ -71,7 +79,7 @@ def netAnalysis(file_to_test, file_name='network_analysis.csv'):
     print(f"Download Speed: {download_speed:.2f} Mbps")
     print(f"Upload Speed: {upload_speed:.2f} Mbps")
 
-        # Example: Measure file transfer time
+    # Example: Measure file transfer time
     print("\nMeasuring file transfer time...")
     file_url = file_to_test
     destination = "samplefile.zip"
@@ -81,6 +89,5 @@ def netAnalysis(file_to_test, file_name='network_analysis.csv'):
     print("\nMeasuring system response time...")
     pingTest(server)
         
-
 
 netAnalysis("https://crouton.net/crouton.png", "network_analysis.csv")
